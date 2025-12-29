@@ -22,6 +22,6 @@ func MakeShip() *Ship {
 	bRed, err := NewSprite("bulletRed")
 	bBanana := BananaAnimation()
 
-	ship.sprites = []Entity{fire,shipSprite,bArrow,bArrowSmall,bBlueLine,bRed,bBanana]}
+	ship.sprites = []Entity{fire, shipSprite, bArrow, bArrowSmall, bBlueLine, bRed, bBanana}
 	return ship
 }
