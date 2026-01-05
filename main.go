@@ -7,6 +7,7 @@ import (
 
 type Game struct {
 	debugui  debugui.DebugUI
+	ship     *Ship
 	entities []Entity
 }
 
@@ -19,7 +20,7 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	for _, entt := range g.entities {
-		entt.Draw(screen)
+		for layer := range g.entities.la
 	}
 }
 
@@ -28,10 +29,9 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func main() {
-	game := &Game{}
-	fire := FireAnimation()
+	game := &Game{ship: MakeShip()}
 	ebiten.SetWindowSize(256*4, 240*4)
-	game.entities = append(game.entities, fire)
+	game.entities = game.ship.sprites
 	if err := ebiten.RunGame(game); err != nil {
 		panic(err)
 	}

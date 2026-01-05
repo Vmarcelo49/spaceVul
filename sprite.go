@@ -16,15 +16,19 @@ type AnimatedSprite struct {
 	FrameTimeLeft   int
 	totalDuration   int
 	frameIndex      int
+
+	layer Layer
 }
 
 type Sprite struct {
 	image *ebiten.Image
 	rect  image.Rectangle
+
+	layer Layer
 }
 
 func NewSprite(path string) (*Sprite, error) {
-	img, imgimg, err := ebitenutil.NewImageFromFile(fmt.Sprintf("assets/%s%d.png", path, i+1)) //fire1.png, fire2.png, ...
+	img, imgimg, err := ebitenutil.NewImageFromFile(fmt.Sprintf("assets/%s.png", path)) //fire1.png, fire2.png, ...
 	if err != nil {
 		return nil, err
 	}
@@ -67,8 +71,37 @@ func FireAnimation() *AnimatedSprite {
 		anim.spriteDurations[i] = duration
 	}
 	anim.totalDuration = 3 * 6
+	anim.layer = LayerShipFire
 	return anim
 }
+
+func isPair(num int) bool {
+	return num%2 == 0
+}
+
+func BananaAnimation() *AnimatedSprite {
+	const animLen = 8
+	anim, err := LoadAnimatedSprite("banana", animLen)
+	if err != nil {
+		panic(err)
+	}
+	duration1 := 6  // 100ms
+	duration2 := 12 // 200ms
+	anim.spriteDurations = make([]int, animLen)
+	for i := range animLen {
+		if isPair(i + 1) {
+			anim.spriteDurations[i] = duration1
+		} else {
+			anim.spriteDurations[i] = duration2
+		}
+	}
+	anim.totalDuration = (4 * 6) + (4 * 12)
+	anim.layer = LayerBullet
+
+	return anim
+}
+
+func (s *Sprite) Update() {}
 
 func (a *AnimatedSprite) Update() {
 	a.FrameTimeLeft--
@@ -85,13 +118,6 @@ func (a *AnimatedSprite) Update() {
 
 func (a *AnimatedSprite) ActiveSprite() *Sprite {
 	return a.sprites[a.frameIndex]
-}
-
-func (a *AnimatedSprite) Draw(screen *ebiten.Image) {
-	sprite := a.ActiveSprite()
-	opts := &ebiten.DrawImageOptions{}
-	opts.GeoM.Translate(float64(sprite.rect.Min.X), float64(sprite.rect.Min.Y))
-	screen.DrawImage(sprite.image, opts)
 }
 
 type Entity interface {
