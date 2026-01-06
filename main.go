@@ -6,22 +6,22 @@ import (
 )
 
 type Game struct {
-	debugui  debugui.DebugUI
-	ship     *Ship
-	entities []Entity
+	debugui       debugui.DebugUI
+	ship          *Ship
+	otherEntities []Entity
 }
 
 func (g *Game) Update() error {
-	for _, entt := range g.entities {
+	for _, entt := range g.otherEntities {
 		entt.Update()
 	}
+	g.ship.Update()
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	for _, entt := range g.entities {
-		for layer := range g.entities.la
-	}
+	DrawWITHLayers(screen, g.otherEntities)
+	DrawWITHLayers(screen, g.ship.sprites)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -31,7 +31,6 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 func main() {
 	game := &Game{ship: MakeShip()}
 	ebiten.SetWindowSize(256*4, 240*4)
-	game.entities = game.ship.sprites
 	if err := ebiten.RunGame(game); err != nil {
 		panic(err)
 	}

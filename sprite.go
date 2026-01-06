@@ -123,4 +123,5 @@ func (a *AnimatedSprite) ActiveSprite() *Sprite {
 type Entity interface {
 	Draw(*ebiten.Image)
 	Update()
+	Layer() *Layer
 }
