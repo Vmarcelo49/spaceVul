@@ -5,6 +5,9 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+var ScreenWidth = 256
+var ScreenHeight = 240
+
 type Game struct {
 	debugui       debugui.DebugUI
 	ship          *Ship
@@ -21,11 +24,11 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	DrawWITHLayers(screen, g.otherEntities)
-	DrawWITHLayers(screen, g.ship.sprites)
+	g.ship.DrawShip(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 256, 240
+	return ScreenWidth, ScreenHeight
 }
 
 func main() {

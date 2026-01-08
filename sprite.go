@@ -103,6 +103,10 @@ func BananaAnimation() *AnimatedSprite {
 
 func (s *Sprite) Update() {}
 
+func (s *Sprite) Image() *ebiten.Image {
+	return s.image
+}
+
 func (a *AnimatedSprite) Update() {
 	a.FrameTimeLeft--
 	if a.FrameTimeLeft > 0 {
@@ -120,8 +124,13 @@ func (a *AnimatedSprite) ActiveSprite() *Sprite {
 	return a.sprites[a.frameIndex]
 }
 
+func (s *AnimatedSprite) Image() *ebiten.Image {
+	return s.ActiveSprite().image
+}
+
 type Entity interface {
 	Draw(*ebiten.Image)
 	Update()
 	Layer() *Layer
+	Image() *ebiten.Image
 }

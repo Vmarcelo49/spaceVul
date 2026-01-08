@@ -1,12 +1,16 @@
 package main
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 type Layer int
 
 const (
 	MaxLayer = 4
+)
 
+const (
 	LayerBG Layer = iota
 	LayerShipFire
 	LayerShipBody
@@ -43,7 +47,6 @@ func populateLayers(layers *[MaxLayer][]Entity, entities []Entity) {
 		}
 
 		idx := int(*layerPtr)
-
 		layers[idx] = append(layers[idx], ent)
 	}
 }
