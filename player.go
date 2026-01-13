@@ -7,8 +7,9 @@ import (
 )
 
 type Ship struct {
-	sprites []Entity // 2 fire sprites, 1 body sprite, ?? bullet sprites
-	rect    image.Rectangle
+	sprites        []Entity // 2 fire sprites, 1 body sprite, ?? bullet sprites
+	rect           image.Rectangle
+	ProjectileType ProjectileType
 }
 
 func MakeShip() *Ship {
@@ -25,13 +26,16 @@ func MakeShip() *Ship {
 		panic(err)
 	}
 
-	ship.rect = image.Rectangle{Max: image.Point{X: (ScreenWidth / 2) - (shipSprite.rect.Dx() / 2), Y: ScreenHeight / 2}}
-
+	ship.rect = image.Rect(
+		(ScreenWidth/2)-(shipSprite.rect.Dx()/2), ScreenHeight/2,
+		(ScreenWidth/2)-(shipSprite.rect.Dx()/2)+shipSprite.rect.Dx(), (ScreenHeight/2)+shipSprite.rect.Dy(),
+	)
 	ship.sprites = []Entity{fire, shipSprite, bArrow, bArrowSmall, bBlueLine, bRed, bBanana}
 	return ship
 }
 
 func (s *Ship) Update() {
+
 	for _, entt := range s.sprites {
 		entt.Update()
 	}
